@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Métodos de Arrays em JavaScript</title>
+    <p>Alunos: William gabriel, Filipe Rodeigues Pere, Guilherme Martins Teixeira, David kaun</p>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .method {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .method h2 {
+            color: #3498db;
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .example {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 3px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .result {
+            background-color: #e8f4f8;
+            padding: 10px;
+            border-left: 3px solid #3498db;
+            margin: 10px 0;
+        }
+        .warning {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Métodos de Arrays em JavaScript</h1>
+
+    <div class="method">
+        <h2>1. Array.prototype.shift()</h2>
+        <p>Remove o <strong>primeiro</strong> elemento de um array e retorna esse elemento.</p>
+        <p class="warning">⚠️ Altera o array original!</p>
+        <div class="example">
+            const frutas = ['maçã', 'banana', 'laranja'];
+            const primeiro = frutas.shift();
+            
+            console.log(frutas);    // ['banana', 'laranja']
+            console.log(primeiro);  // 'maçã'
+        </div>
+        <div class="result" id="shiftResult"></div>
+        <button onclick="demoShift()">Demonstrar shift()</button>
+    </div>
+
+   
+    <div class="method">
+        <h2>3. Array.prototype.concat()</h2>
+        <p>Combina dois ou mais arrays e retorna um <strong>novo array</strong> com a combinação.</p>
+        <p class="warning">✅ Não altera os arrays originais!</p>
+        <div class="example">
+            const array1 = ['a', 'b'];
+            const array2 = ['c', 'd'];
+            const combinado = array1.concat(array2, ['e']);
+            
+            console.log(combinado);  // ['a', 'b', 'c', 'd', 'e']
+            console.log(array1);     // ['a', 'b'] (inalterado)
+        </div>
+        <div class="result" id="concatResult"></div>
+        <button onclick="demoConcat()">Demonstrar concat()</button>
+    </div>
+    <div class="method">
+        <h2>5. Array.prototype.flat()</h2>
+        <p>Cria um novo array com todos elementos sub-arrays concatenados nele de forma recursiva até a profundidade especificada.</p>
+        <p class="warning">✅ Não altera o array original!</p>
+        <div class="example">
+            const array = [1, [2, [3, [4]]]];
+            const flat1 = array.flat();    // Profundidade padrão: 1
+            const flat2 = array.flat(2);   // Profundidade: 2
+            const flatInf = array.flat(Infinity); // Todos os níveis
+            
+            console.log(flat1);   // [1, 2, [3, [4]]]
+            console.log(flat2);   // [1, 2, 3, [4]]
+            console.log(flatInf); // [1, 2, 3, 4]
+        </div>
+        <div class="result" id="flatResult"></div>
+        <button onclick="demoFlat()">Demonstrar flat()</button>
+    </div>
+
+    <div class="method">
+        <h2>6. Array.prototype.splice()</h2>
+        <p><strong>Altera</strong> um array adicionando/removendo elementos em posições específicas.</p>
+        <p>Retorna um array com os elementos removidos.</p>
+        <p class="warning">⚠️ Altera o array original!</p>
+        <div class="example">
+            const meses = ['Jan', 'Mar', 'Apr', 'Jun'];
+            // Adiciona 'Feb' na posição 1, removendo 0 elementos
+            meses.splice(1, 0, 'Feb');
+            // Remove 1 elemento na posição 4
+            const removidos = meses.splice(4, 1, 'May');
+            
+            console.log(meses);      // ['Jan', 'Feb', 'Mar', 'Apr', 'May']
+            console.log(removidos); // ['Jun']
+        </div>
+        <div class="result" id="spliceResult"></div>
+        <button onclick="demoSplice()">Demonstrar splice()</button>
+    </div>
+
+    <div class="method">
+        <h2>8. Array.prototype.slice()</h2>
+        <p>Retorna uma cópia superficial (shallow copy) de parte de um array.</p>
+        <p class="warning">✅ Não altera o array original!</p>
+        <div class="example">
+            const animais = ['ant', 'bison', 'camel', 'duck', 'elephant'];
+            const parte = animais.slice(2, 4);
+            const copia = animais.slice();
+            
+            console.log(parte);  // ['camel', 'duck']
+            console.log(copia);  // ['ant', 'bison', 'camel', 'duck', 'elephant']
+        </div>
+        <div class="result" id="sliceResult"></div>
+        <button onclick="demoSlice()">Demonstrar slice()</button>
+    </div>
+
+<script>
+        // Funções de demonstração para cada método
+        function demoShift() {
+            const frutas = ['maçã', 'banana', 'laranja'];
+            const original = [...frutas];
+            const primeiro = frutas.shift();
+            
+            const result = `
+                Array original: [${original}]<br>
+                Após shift(): [${frutas}]<br>
+                Elemento removido: '${primeiro}'
+            `;
+            document.getElementById('shiftResult').innerHTML = result;
+        }
+
+        function demoUnshift() {
+            const numeros = [2, 3, 4];
+            const original = [...numeros];
+            const novoComprimento = numeros.unshift(0, 1);
+            
+            const result = `
+                Array original: [${original}]<br>
+                Após unshift(): [${numeros}]<br>
+                Novo comprimento: ${novoComprimento}
+            `;
+            document.getElementById('unshiftResult').innerHTML = result;
+        }
+
+        function demoConcat() {
+            const array1 = ['a', 'b'];
+            const array2 = ['c', 'd'];
+            const combinado = array1.concat(array2, ['e']);
+            
+            const result = `
+                Array1: [${array1}]<br>
+                Array2: [${array2}]<br>
+                Combinado: [${combinado}]
+            `;
+            document.getElementById('concatResult').innerHTML = result;
+        }
+
+        function demoSplice() {
+            const meses = ['Jan', 'Mar', 'Apr', 'Jun'];
+            const original = [...meses];
+            
+            meses.splice(1, 0, 'Feb');
+            const removidos = meses.splice(4, 1, 'May');
+            
+            const result = `
+                Array original: [${original}]<br>
+                Após adicionar 'Feb': [${meses}]<br>
+                Após substituir 'Jun' por 'May': [${meses}]<br>
+                Elementos removidos: [${removidos}]
+            `;
+            document.getElementById('spliceResult').innerHTML = result;
+        }
+
+        function demoToSpliced() {
+            // Verifica se o navegador suporta toSpliced()
+            if (!Array.prototype.toSpliced) {
+                document.getElementById('toSplicedResult').innerHTML = 
+                    '<span class="warning">Seu navegador não suporta toSpliced() (ECMAScript 2023)</span>';
+                return;
+            }
+            
+            const original = ['a', 'b', 'c', 'd'];
+            const modificado = original.toSpliced(1, 2, 'x', 'y');
+            
+            const result = `
+                Array original: [${original}] (inalterado)<br>
+                Novo array: [${modificado}]
+            `;
+            document.getElementById('toSplicedResult').innerHTML = result;
+        }
+
+        function demoSlice() {
+            const animais = ['ant', 'bison', 'camel', 'duck', 'elephant'];
+            const parte = animais.slice(2, 4);
+            const copia = animais.slice();
+            
+            const result = `
+                Array original: [${animais}]<br>
+                slice(2, 4): [${parte}]<br>
+                slice(): [${copia}] (cópia superficial)
+            `;
+            document.getElementById('sliceResult').innerHTML = result;
+        }
+        
+    </script>
+</body>
+</html>
